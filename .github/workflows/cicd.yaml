@@ -53,8 +53,7 @@ jobs:
 
       - name: Install Ansible
         run: |
-          sudo apt update
-          sudo apt install -y ansible
+          pip install -y ansible
 
       - name: Deploy to Staging
         run: |
@@ -78,8 +77,7 @@ jobs:
 
       - name: Install Ansible
         run: |
-          sudo apt update
-          sudo apt install -y ansible
+          pip install -y ansible
 
       - name: Deploy to Staging
         run: |
@@ -116,8 +114,7 @@ jobs:
 
       - name: Install Ansible
         run: |
-          sudo apt update
-          sudo apt install -y ansible
+          pip install -y ansible
 
       - name: Deploy to Staging
         run: |
