@@ -53,7 +53,7 @@ jobs:
 
       - name: Install Ansible
         run: |
-          pip install -y ansible
+          pip install ansible
 
       - name: Deploy to Staging
         run: |
@@ -77,7 +77,7 @@ jobs:
 
       - name: Install Ansible
         run: |
-          pip install -y ansible
+          pip install ansible
 
       - name: Deploy to Staging
         run: |
@@ -114,7 +114,7 @@ jobs:
 
       - name: Install Ansible
         run: |
-          pip install -y ansible
+          pip install ansible
 
       - name: Deploy to Staging
         run: |
