@@ -29,6 +29,7 @@ jobs:
 
   deploy-staging:
     name: Deploy Staging
+    needs: build
     runs-on: ubuntu-latest
     container: python:3.11
     steps:
@@ -58,6 +59,7 @@ jobs:
 
   test:
     name: Test
+    needs: deploy-staging
     runs-on: ubuntu-latest
     container: python:3.11
     steps:
@@ -80,7 +82,7 @@ jobs:
         run: |
           ansible-playbook -i inventory.yml test.yml --extra-vars "version=${{ env.TAG }}"
 
-  verify_results:
+  verify-results:
     needs: test
     runs-on: ubuntu-latest
     environment:
@@ -95,6 +97,7 @@ jobs:
 
   deploy-production:
     name: Deploy Production
+    needs: verify-results
     runs-on: ubuntu-latest
     container: python:3.11
     steps:
