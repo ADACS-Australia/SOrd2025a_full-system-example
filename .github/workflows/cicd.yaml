@@ -39,7 +39,6 @@ jobs:
     name: Deploy Staging
     needs: build
     runs-on: ubuntu-latest
-    container: python:3.11
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -53,7 +52,8 @@ jobs:
 
       - name: Install Ansible
         run: |
-          pip install ansible
+          sudo apt update
+          sudo apt -y install ansible
 
       - name: Deploy to Staging
         run: |
