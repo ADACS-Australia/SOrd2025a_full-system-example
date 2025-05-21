@@ -1,0 +1,34 @@
+- name: Deploy Hello World Module
+  hosts: all
+  vars:
+    software_name: "hello-world"
+    remote_image: "docker://ksmith21/{{ software_name }}:{{ version }}"
+    # Directories
+    software_dir: "{{ base_dir }}/{{ software_name }}/{{ version }}"
+    module_dir: "{{ base_dir }}/modulefiles/{{ software_name }}"
+    # Paths
+    software_path: "{{ software_dir }}/{{ software_name }}"
+    module_path: "{{ module_dir }}/{{ version }}.lua"
+
+  tasks:
+    - name: Ensure required directories exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - "{{ module_dir }}"
+        - "{{ software_dir }}"
+
+    - name: Load Singularity module and Pull image
+      shell: |
+        module load singularity/{{ singularity_version }}
+        singularity pull -F {{ software_path }} {{ remote_image }}
+      args:
+        executable: /bin/bash
+
+    - name: Create module file
+      template:
+        src: modulefile.lua.jinja2
+        dest: "{{ module_path }}"
+        mode: "0644"

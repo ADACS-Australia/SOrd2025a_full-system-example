@@ -1,0 +1,28 @@
+- name: Test Hello World Module
+  hosts: staging
+  vars:
+    software_name: "hello-world"
+    # Directories
+    software_dir: "{{ base_dir }}/{{ software_name }}/{{ version }}"
+    modulefiles_dir: "{{ base_dir }}/modulefiles"
+    # Paths
+    software_path: "{{ software_dir }}/{{ software_name }}"
+    module_path: "{{ modulefiles_dir }}/{{ software_name }}/{{ version }}.lua"
+
+  tasks:
+    - name: Ensure required module and software exists
+      file:
+        path: "{{ item }}"
+        state: file
+      loop:
+        - "{{ software_path }}"
+        - "{{ module_path }}"
+
+    - name: Load Modules and run
+      shell: |
+        module load singularity/{{ singularity_version }}
+        module use {{ modulefiles_dir }}
+        module load {{ software_name }}/{{ version }}
+        {{ software_name }}
+      args:
+        executable: /bin/bash

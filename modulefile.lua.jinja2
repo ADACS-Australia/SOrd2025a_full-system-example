@@ -1,0 +1,12 @@
+help([[
+This module loads hello-world v{{ version }}
+]])
+
+whatis("Name: Hello World")
+whatis("Version: {{ version }}")
+whatis("Description: Hello World software kit")
+
+setenv("HELLO_WORLD_HOME", "{{ software_dir }}")
+setenv("HELLO_WORLD_VERSION", "{{ version }}")
+
+prepend_path("PATH", "{{ software_dir }}")
