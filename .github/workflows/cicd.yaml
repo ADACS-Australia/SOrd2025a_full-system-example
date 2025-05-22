@@ -83,22 +83,14 @@ jobs:
         run: |
           ansible-playbook -i inventory.yml test.yml --extra-vars "version=${{ env.TAG }}"
 
-  verify-results:
+  deploy-production:
+    name: Deploy Production
     needs: test
-    runs-on: ubuntu-latest
     environment:
       name: manual-approval
       # This enforces a manual approval step through GitHub's UI
-      # You need to configure this environment in your repo settings
-      # under Settings > Environments > New environment
-      # and add required reviewers
-    steps:
-      - name: Echo verification
-        run: echo "Manually check the test results"
-
-  deploy-production:
-    name: Deploy Production
-    needs: verify-results
+      # You need to configure this environment in the repo settings
+      # under Settings > Environments > New environment and add required reviewers
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
