@@ -57,7 +57,7 @@ jobs:
 
       - name: Deploy to Staging
         run: |
-          ansible-playbook deploy.yml -i inventory/staging.yml --extra-vars "version=${{ env.REF_NAME }}, ansible_user=ksmith1"
+          ansible-playbook deploy.yml -i inventory/staging.yml --extra-vars "version=${{ env.REF_NAME }}, ansible_user=ksmith1, remote_image=docker://${{ vars.DOCKER_HUB_USERNAME }}/hello-world:${{ env.REF_NAME }}"
 
   test:
     name: Test
@@ -110,4 +110,4 @@ jobs:
 
       - name: Deploy to Production
         run: |
-          ansible-playbook deploy.yml -i inventory/prod.yml --extra-vars "version=${{ env.REF_NAME }}, ansible_user=ksmith1"
+          ansible-playbook deploy.yml -i inventory/prod.yml --extra-vars "version=${{ env.REF_NAME }}, ansible_user=ksmith1, remote_image=docker://${{ vars.DOCKER_HUB_USERNAME }}/hello-world:${{ env.REF_NAME }}"
