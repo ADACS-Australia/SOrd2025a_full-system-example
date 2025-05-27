@@ -1,14 +1,22 @@
 - name: Deploy Hello World Module
   hosts: all
   vars:
+    required_vars:
+      - remote_image
     software_name: "hello-world"
-    remote_image: "docker://ksmith21/{{ software_name }}:{{ version }}"
     # Directories
     software_dir: "{{ base_dir }}/{{ software_name }}/{{ version }}"
     module_dir: "{{ base_dir }}/modulefiles/{{ software_name }}"
     # Paths
     software_path: "{{ software_dir }}/{{ software_name }}"
     module_path: "{{ module_dir }}/{{ version }}.lua"
+
+  pre_tasks:
+    - name: Ensure required variables are set
+      assert:
+        that: "{{ item }} is defined"
+        fail_msg: "Missing required variable: {{ item }}. Pass it using -e '{{ item }}=value'"
+      loop: "{{ required_vars }}"
 
   tasks:
     - name: Ensure required directories exist

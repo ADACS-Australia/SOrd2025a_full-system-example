@@ -1,0 +1,8 @@
+dev:
+  hosts:
+    setonix_dev:
+      env: dev
+      ansible_host: setonix.pawsey.org.au
+      base_dir: /scratch/askaprt/{{ ansible_user }}
+      ansible_python_interpreter: /usr/bin/python3.11
+      singularity_version: "4.1.0-slurm"

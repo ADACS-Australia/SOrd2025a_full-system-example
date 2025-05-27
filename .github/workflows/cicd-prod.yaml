@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env:
-  TAG: ${{ github.ref_name }}
+  REF_NAME: ${{ github.ref_name }}
 
 jobs:
   build:
@@ -29,10 +29,10 @@ jobs:
         with:
           context: .
           build-args: |
-            VERSION=${{ env.TAG }}
+            VERSION=${{ env.REF_NAME }}
           push: true
           tags: |
-            ${{ vars.DOCKER_HUB_USERNAME }}/hello-world:${{ env.TAG }}
+            ${{ vars.DOCKER_HUB_USERNAME }}/hello-world:${{ env.REF_NAME }}
             ${{ vars.DOCKER_HUB_USERNAME }}/hello-world:latest
 
   deploy-staging:
@@ -57,7 +57,7 @@ jobs:
 
       - name: Deploy to Staging
         run: |
-          ansible-playbook -i inventory.yml deploy.yml -l staging --extra-vars "version=${{ env.TAG }}"
+          ansible-playbook deploy.yml -i inventory/staging.yml --extra-vars "version=${{ env.REF_NAME }}, ansible_user=ksmith1"
 
   test:
     name: Test
@@ -81,7 +81,7 @@ jobs:
 
       - name: Deploy to Staging
         run: |
-          ansible-playbook -i inventory.yml test.yml --extra-vars "version=${{ env.TAG }}"
+          ansible-playbook test.yml -i inventory/staging/inventory.yml --extra-vars "version=${{ env.REF_NAME }}"
 
   deploy-production:
     name: Deploy Production
@@ -108,6 +108,6 @@ jobs:
           sudo apt update
           sudo apt -y install ansible
 
-      - name: Deploy to Staging
+      - name: Deploy to Production
         run: |
-          ansible-playbook -i inventory.yml deploy.yml --extra-vars "version=${{ env.TAG }}"
+          ansible-playbook deploy.yml -i inventory/prod.yml --extra-vars "version=${{ env.REF_NAME }}, ansible_user=ksmith1"
