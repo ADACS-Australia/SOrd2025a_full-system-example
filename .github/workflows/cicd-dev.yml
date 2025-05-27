@@ -55,4 +55,4 @@ jobs:
 
       - name: Deploy to Development
         run: |
-          ansible-playbook deploy.yml -i inventory/dev.yml --extra-vars "version=${{ env.REF_NAME }}, ansible_user=ksmith1, remote_image=docker://${{ vars.DOCKER_HUB_USERNAME }}/hello-world:${{ env.REF_NAME }}"
+          ansible-playbook deploy.yml -i inventory/dev.yml --extra-vars "version=${{ env.REF_NAME }} ansible_user=ksmith1 remote_image=docker://${{ vars.DOCKER_HUB_USERNAME }}/hello-world:${{ env.REF_NAME }}"
